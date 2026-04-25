@@ -5,7 +5,6 @@ module skillforge::skillforge {
     use std::signer;
     use std::vector;
     use std::error;
-    use initia_std::coin;
     use initia_std::fungible_asset::Metadata;
     use initia_std::object::Object;
     use initia_std::primary_fungible_store;

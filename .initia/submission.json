@@ -1,15 +1,27 @@
 {
   "project_name": "SkillForge",
   "chain_id": "skillforge-1",
-  "contracts": [],
+  "vm_type": "move",
+  "contracts": [
+    {
+      "name": "skillforge",
+      "address": "init1f99fdlqsfatgtdgvkmvwqte5c7eym32r846ksj",
+      "tx_hash": "81BDFC47D5E57CEF225C58D8E18C09324AA210B875D51A153D6A80F918EEDB04"
+    }
+  ],
+  "rollup": {
+    "bridge_id": "1919",
+    "rpc": "http://localhost:26657",
+    "rest": "http://localhost:1317"
+  },
   "frontend_url": "",
   "demo_video": "",
-  "description": "Skill-based competitive earning platform on Initia. Players wager tokens, compete in timed knowledge challenges, and winners receive pooled rewards minus a 5% platform fee — all secured by on-chain smart contracts.",
+  "description": "Skill-based competitive earning platform on Initia. Players wager tokens, compete in timed knowledge challenges, and winners receive pooled rewards minus a 5% platform fee — all secured by on-chain Move smart contracts on a custom appchain.",
   "features": {
     "wallet_integration": "InterwovenKit (@initia/interwovenkit-react)",
-    "smart_contract": "Move (MoveVM) on Initia appchain",
-    "native_feature": "Auto-signing / session UX"
+    "smart_contract": "Move (MoveVM) on Initia appchain (skillforge-1)",
+    "native_feature": "Token escrow and automated reward distribution via primary_fungible_store"
   },
   "team": [],
-  "repository": ""
+  "repository": "https://github.com/Mandalorian7773/skillforge"
 }
