@@ -62,16 +62,28 @@ function LayoutInner({ walletAddress, isConnected, openConnect, openWallet, fetc
 }
 
 export default function Layout() {
+  const [mockConnected, setMockConnected] = useState(false);
+
+  // Mock wallet data
+  const mockAddress = 'init1demo9876543210mockwalletaddressxyz';
+  const mockBalance = 500.0; // 500 INIT
+
   return (
     <LayoutInner
-      walletAddress={null}
-      balance={0}
-      isConnected={false}
+      walletAddress={mockConnected ? mockAddress : null}
+      balance={mockConnected ? mockBalance : 0}
+      isConnected={mockConnected}
       openConnect={() => {
-        alert('Wallet connection will be available once the SkillForge chain is registered in the Initia chain registry.');
+        // Simulate a slight delay for wallet connection
+        setTimeout(() => setMockConnected(true), 500);
       }}
-      openWallet={() => {}}
-      fetchBalance={null}
+      openWallet={() => {
+        // Simulate disconnecting when clicking the wallet button again (for testing convenience)
+        if (confirm('Disconnect mock wallet?')) {
+          setMockConnected(false);
+        }
+      }}
+      fetchBalance={null} // Don't try to fetch real balance for mock wallet
     />
   );
 }
