@@ -14,8 +14,8 @@
     "rpc": "http://localhost:26657",
     "rest": "http://localhost:1317"
   },
-  "frontend_url": "",
-  "demo_video": "",
+  "frontend_url": "https://skillforge101.netlify.app",
+  "demo_video": "ADD_YOUR_YOUTUBE_LINK_HERE",
   "description": "Skill-based competitive earning platform on Initia. Players wager tokens, compete in timed knowledge challenges, and winners receive pooled rewards minus a 5% platform fee — all secured by on-chain Move smart contracts on a custom appchain.",
   "features": {
     "wallet_integration": "InterwovenKit (@initia/interwovenkit-react)",

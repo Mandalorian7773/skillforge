@@ -2,7 +2,15 @@
 
 **Skill-based competitive earning platform on Initia**
 
-Players wager tokens, compete in timed knowledge challenges across math, logic, pattern recognition, and coding categories. Winners receive pooled rewards (95%) — all secured by on-chain Move smart contracts deployed on the SkillForge appchain.
+### 🔗 Live Links
+- **Frontend Deployment**: [https://skillforge101.netlify.app](https://skillforge101.netlify.app)
+- **Backend API**: [https://skillforge-ahqz.onrender.com](https://skillforge-ahqz.onrender.com)
+
+### 🚀 What We Built
+SkillForge is a full-stack Web3 competitive gaming platform. 
+1. **AppChain**: A custom Initia Rollup (`skillforge-1`) with Move smart contracts acting as the trustless arbiter, securing entry fees and executing instant payouts.
+2. **Backend**: A Node.js engine that synchronizes matches, serves challenges, and manages time-based scoring to prevent cheating.
+3. **Frontend**: A sleek React/Tailwind UI built with glassmorphism, using InterwovenKit for seamless blockchain interactions.
 
 ## 🏗️ Architecture
 
