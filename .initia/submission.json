@@ -1,0 +1,15 @@
+{
+  "project_name": "SkillForge",
+  "chain_id": "skillforge-1",
+  "contracts": [],
+  "frontend_url": "",
+  "demo_video": "",
+  "description": "Skill-based competitive earning platform on Initia. Players wager tokens, compete in timed knowledge challenges, and winners receive pooled rewards minus a 5% platform fee — all secured by on-chain smart contracts.",
+  "features": {
+    "wallet_integration": "InterwovenKit (@initia/interwovenkit-react)",
+    "smart_contract": "Move (MoveVM) on Initia appchain",
+    "native_feature": "Auto-signing / session UX"
+  },
+  "team": [],
+  "repository": ""
+}

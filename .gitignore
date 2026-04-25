@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Move / Contract build artifacts
+contracts/skillforge/build/
+contracts/skillforge/.aptos/
+
+# Weave / Initia local data (do NOT commit)
+.minitia/
+.weave/
+.opinit/
+
+# Coverage
+coverage/
+*.lcov

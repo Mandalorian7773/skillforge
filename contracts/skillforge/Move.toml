@@ -1,0 +1,11 @@
+[package]
+name = "skillforge"
+version = "0.1.0"
+
+[addresses]
+skillforge = "_"
+std = "0x1"
+initia_std = "0x1"
+
+[dependencies]
+InitiaStdlib = { git = "https://github.com/initia-labs/movevm.git", subdir = "precompile/modules/initia_stdlib", rev = "v1.1.2" }
