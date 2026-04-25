@@ -10,13 +10,7 @@ const PORT = process.env.PORT || 3456;
 
 // Middleware
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:5174',
-    'http://localhost:3000',
-    'http://127.0.0.1:5173',
-    'http://127.0.0.1:5174',
-  ],
+  origin: true, // Allow all origins in production — frontend is on a different domain
   credentials: true,
 }));
 app.use(express.json());
@@ -41,18 +35,21 @@ app.use((err: any, _req: express.Request, res: express.Response, _next: express.
   res.status(500).json({ success: false, error: 'Internal server error' });
 });
 
-const server = app.listen(Number(PORT), '127.0.0.1', () => {
+// Bind to 0.0.0.0 — required for Render/Docker (127.0.0.1 rejects external traffic)
+const HOST = process.env.HOST || '0.0.0.0';
+
+const server = app.listen(Number(PORT), HOST, () => {
   console.log(`
-  ⚡ SkillForge Backend running on port ${PORT}
-  📡 API: http://localhost:${PORT}/api
-  🏥 Health: http://localhost:${PORT}/health
+  ⚡ SkillForge Backend running on ${HOST}:${PORT}
+  📡 API: http://${HOST}:${PORT}/api
+  🏥 Health: http://${HOST}:${PORT}/health
   `);
 });
 
 server.on('error', (err: any) => {
   if (err.code === 'EPERM' || err.code === 'EACCES') {
     console.error(`Cannot bind to port ${PORT}. Trying port 0 (random)...`);
-    const fallback = app.listen(0, '127.0.0.1', () => {
+    const fallback = app.listen(0, HOST, () => {
       const addr = fallback.address();
       console.log(`⚡ SkillForge Backend running on port ${typeof addr === 'object' ? addr?.port : addr}`);
     });

@@ -1,5 +1,6 @@
 // ===== API Constants =====
-export const API_BASE_URL = '/api';
+// Use Render backend in production, local proxy in dev
+export const API_BASE_URL = import.meta.env.DEV ? '/api' : 'https://skillforge-ahqz.onrender.com/api';
 
 // ===== Blockchain Constants =====
 // InterwovenKit wallet provider chain — must exist in Initia's public registry

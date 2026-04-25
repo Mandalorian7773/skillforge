@@ -1,84 +1,12 @@
-import React, { useState, useEffect, Component, type PropsWithChildren, type ReactNode } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useInterwovenKit } from '@initia/interwovenkit-react';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import { getWalletBalance } from '../../services/blockchain';
 
-// ===== Error Boundary for InterwovenKit =====
-// If the chain registry is unreachable, useInterwovenKit() throws.
-// This boundary catches that and renders the app without wallet features.
-
-interface WalletErrorBoundaryProps extends PropsWithChildren {
-  fallback: ReactNode;
-}
-
-interface WalletErrorBoundaryState {
-  hasError: boolean;
-  error: Error | null;
-}
-
-class WalletErrorBoundary extends Component<WalletErrorBoundaryProps, WalletErrorBoundaryState> {
-  constructor(props: WalletErrorBoundaryProps) {
-    super(props);
-    this.state = { hasError: false, error: null };
-  }
-
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error: Error) {
-    console.warn('[SkillForge] InterwovenKit error caught by boundary:', error.message);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback;
-    }
-    return this.props.children;
-  }
-}
-
-// ===== Layout with real wallet connection =====
-
-function WalletConnectedLayout() {
-  const kit = useInterwovenKit();
-  const address = kit.address ?? null;
-  const isConnected = kit.isConnected ?? false;
-  const openConnect = kit.openConnect ?? (() => {});
-  const openWallet = kit.openWallet ?? (() => {});
-
-  return (
-    <LayoutInner
-      walletAddress={isConnected ? address : null}
-      balance={0}
-      isConnected={isConnected}
-      openConnect={openConnect}
-      openWallet={openWallet}
-      fetchBalance={isConnected && address ? address : null}
-    />
-  );
-}
-
-// ===== Fallback layout (no wallet) =====
-
-function FallbackLayout() {
-  return (
-    <LayoutInner
-      walletAddress={null}
-      balance={0}
-      isConnected={false}
-      openConnect={() => {
-        alert('Wallet connection is currently unavailable. The Initia chain registry could not be reached. Please check your internet connection and reload the page.');
-      }}
-      openWallet={() => {}}
-      fetchBalance={null}
-    />
-  );
-}
-
-// ===== Shared layout shell =====
+// ===== Layout =====
+// Wallet integration is disabled — InterwovenKit crashes on unregistered chains.
+// The layout renders in "disconnected" mode with full UI visible.
 
 interface LayoutInnerProps {
   walletAddress: string | null;
@@ -86,7 +14,7 @@ interface LayoutInnerProps {
   isConnected: boolean;
   openConnect: () => void;
   openWallet: () => void;
-  fetchBalance: string | null; // address to fetch balance for, or null
+  fetchBalance: string | null;
 }
 
 function LayoutInner({ walletAddress, isConnected, openConnect, openWallet, fetchBalance }: LayoutInnerProps) {
@@ -133,13 +61,18 @@ function LayoutInner({ walletAddress, isConnected, openConnect, openWallet, fetc
   );
 }
 
-// ===== Exported Layout with Error Boundary =====
-
 export default function Layout() {
   return (
-    <WalletErrorBoundary fallback={<FallbackLayout />}>
-      <WalletConnectedLayout />
-    </WalletErrorBoundary>
+    <LayoutInner
+      walletAddress={null}
+      balance={0}
+      isConnected={false}
+      openConnect={() => {
+        alert('Wallet connection will be available once the SkillForge chain is registered in the Initia chain registry.');
+      }}
+      openWallet={() => {}}
+      fetchBalance={null}
+    />
   );
 }
 
