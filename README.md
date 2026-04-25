@@ -1,3 +1,19 @@
+## Initia Hackathon Submission - **Project Name**: SkillForge
+
+### Project Overview
+SkillForge is a full-stack Web3 competitive gaming platform that replaces centralized payout servers with transparent on-chain execution. It allows gamers to stake tokens, answer rapid-fire challenges, and instantly receive trustless payouts. It provides a secure, decentralized meritocracy where skill is the only currency.
+
+### Implementation Detail
+- **The Custom Implementation**: We developed a custom Initia AppChain (`skillforge-1`) with a Move smart contract acting as the trustless arbiter. The contract securely holds entry fees, validates match completion signals from a Node.js sync engine, and executes instant payouts to the winner.
+- **The Native Feature**: We used the `auto-signing` and Session UX features via InterwovenKit to ensure players can participate in rapid-fire gameplay without constant wallet popups, dramatically improving the user experience during high-pressure matches.
+
+### How to Run Locally
+1. **Backend**: `cd backend && npm install && npm run dev` (Runs on `http://localhost:3456`)
+2. **Frontend**: `cd frontend && npm install && npm run dev` (Runs on `http://localhost:5173`)
+3. **Smart Contract**: Deploy locally using `minitiad move publish --from deployer --chain-id skillforge-1`
+
+---
+
 # SkillForge ⚡
 
 **Skill-based competitive earning platform on Initia**
@@ -5,8 +21,6 @@
 ### 🔗 Live Links
 - **Frontend Deployment**: [https://skillforge101.netlify.app](https://skillforge101.netlify.app)
 - **Backend API**: [https://skillforge-ahqz.onrender.com](https://skillforge-ahqz.onrender.com)
-
-### 🚀 What We Built
 SkillForge is a full-stack Web3 competitive gaming platform. 
 1. **AppChain**: A custom Initia Rollup (`skillforge-1`) with Move smart contracts acting as the trustless arbiter, securing entry fees and executing instant payouts.
 2. **Backend**: A Node.js engine that synchronizes matches, serves challenges, and manages time-based scoring to prevent cheating.
