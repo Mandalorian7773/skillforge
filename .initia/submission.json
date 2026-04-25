@@ -8,5 +8,5 @@
   "native_feature": "auto-signing",
   "core_logic_path": "contracts/skillforge/sources/skillforge.move",
   "native_feature_frontend_path": "frontend/src/providers/WalletProvider.tsx",
-  "demo_video_url": "ADD_YOUR_YOUTUBE_LINK_HERE"
+  "demo_video_url": "https://drive.google.com/file/d/1Ebnhc2qgaPMyqxzZ3dT8x0E9ArSWyhok/view?usp=sharing"
 }
