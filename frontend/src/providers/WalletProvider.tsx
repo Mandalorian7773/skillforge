@@ -1,4 +1,4 @@
-import { useEffect, type PropsWithChildren } from 'react';
+import { useEffect, Component, type PropsWithChildren, type ReactNode } from 'react';
 import { createConfig, http, WagmiProvider } from 'wagmi';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
@@ -37,6 +37,55 @@ const queryClient = new QueryClient({
   },
 });
 
+// ===== Error Boundary for InterwovenKit Provider =====
+// If the chain registry fetch fails, InterwovenKitProvider crashes internally
+// with "Cannot read properties of undefined (reading 'filter')".
+// This boundary catches that and renders children without wallet features.
+
+interface ProviderErrorBoundaryProps extends PropsWithChildren {
+  fallback: ReactNode;
+}
+
+interface ProviderErrorBoundaryState {
+  hasError: boolean;
+}
+
+class ProviderErrorBoundary extends Component<ProviderErrorBoundaryProps, ProviderErrorBoundaryState> {
+  constructor(props: ProviderErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error) {
+    console.warn('[SkillForge] InterwovenKit provider failed to initialize:', error.message);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback;
+    }
+    return this.props.children;
+  }
+}
+
+// ===== Inner provider that may crash =====
+function InterwovenKitWrapper({ children }: PropsWithChildren) {
+  useEffect(() => {
+    injectStyles(interwovenKitStyles);
+  }, []);
+
+  return (
+    <InterwovenKitProvider defaultChainId={INITIA_CHAIN_ID}>
+      {children}
+    </InterwovenKitProvider>
+  );
+}
+
+// ===== Exported WalletProvider =====
 export default function WalletProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     injectStyles(interwovenKitStyles);
@@ -45,9 +94,11 @@ export default function WalletProvider({ children }: PropsWithChildren) {
   return (
     <QueryClientProvider client={queryClient}>
       <WagmiProvider config={wagmiConfig}>
-        <InterwovenKitProvider defaultChainId={INITIA_CHAIN_ID}>
-          {children}
-        </InterwovenKitProvider>
+        <ProviderErrorBoundary fallback={<>{children}</>}>
+          <InterwovenKitWrapper>
+            {children}
+          </InterwovenKitWrapper>
+        </ProviderErrorBoundary>
       </WagmiProvider>
     </QueryClientProvider>
   );
