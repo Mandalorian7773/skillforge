@@ -2,8 +2,10 @@
 export const API_BASE_URL = '/api';
 
 // ===== Blockchain Constants =====
-// Custom appchain — will be updated with real values after `weave rollup launch`
-export const INITIA_CHAIN_ID = 'skillforge-1';
+// InterwovenKit wallet provider chain — must exist in Initia's public registry
+export const INITIA_CHAIN_ID = 'initiation-2';
+// Local rollup chain — used for contract calls when running local node
+export const SKILLFORGE_CHAIN_ID = 'skillforge-1';
 export const INITIA_RPC_URL = 'http://localhost:26657';
 export const INITIA_REST_URL = 'http://localhost:1317';
 export const INITIA_DENOM = 'umin';
