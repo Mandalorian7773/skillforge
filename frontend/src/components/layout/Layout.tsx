@@ -63,9 +63,21 @@ function LayoutInner({ walletAddress, isConnected, openConnect, openWallet, fetc
 
 export default function Layout() {
   const [mockConnected, setMockConnected] = useState(false);
+  const [mockAddress, setMockAddress] = useState<string>('');
+
+  // Generate and persist a unique mock address per user
+  useEffect(() => {
+    let saved = localStorage.getItem('sf_mock_address');
+    if (!saved) {
+      // Generate a random string to simulate a unique wallet address
+      const randomPart = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      saved = `init1${randomPart.padEnd(38, '0').slice(0, 38)}`;
+      localStorage.setItem('sf_mock_address', saved);
+    }
+    setMockAddress(saved);
+  }, []);
 
   // Mock wallet data
-  const mockAddress = 'init1demo9876543210mockwalletaddressxyz';
   const mockBalance = 500.0; // 500 INIT
 
   return (
