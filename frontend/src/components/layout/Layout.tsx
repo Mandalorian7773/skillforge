@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import { getWalletBalance } from '../../services/blockchain';
+import { useInterwovenKit } from '@initia/interwovenkit-react';
 
 // ===== Layout =====
 // Wallet integration is disabled — InterwovenKit crashes on unregistered chains.
@@ -58,44 +59,33 @@ function LayoutInner({ walletAddress, isConnected, openConnect, openWallet, fetc
         </main>
       </div>
     </div>
-  );
-}
-
 export default function Layout() {
-  const [mockConnected, setMockConnected] = useState(false);
-  const [mockAddress, setMockAddress] = useState<string>('');
+  const { 
+    address, 
+    initiaAddress, 
+    isConnected, 
+    openConnect, 
+    openWallet, 
+    disconnect 
+  } = useInterwovenKit();
 
-  // Generate and persist a unique mock address per user
-  useEffect(() => {
-    let saved = localStorage.getItem('sf_mock_address');
-    if (!saved) {
-      // Generate a random string to simulate a unique wallet address
-      const randomPart = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-      saved = `init1${randomPart.padEnd(38, '0').slice(0, 38)}`;
-      localStorage.setItem('sf_mock_address', saved);
-    }
-    setMockAddress(saved);
-  }, []);
-
-  // Mock wallet data
-  const mockBalance = 500.0; // 500 INIT
+  const displayAddress = initiaAddress || address || null;
 
   return (
     <LayoutInner
-      walletAddress={mockConnected ? mockAddress : null}
-      balance={mockConnected ? mockBalance : 0}
-      isConnected={mockConnected}
-      openConnect={() => {
-        // Simulate a slight delay for wallet connection
-        setTimeout(() => setMockConnected(true), 500);
-      }}
+      walletAddress={displayAddress}
+      balance={0} // LayoutInner will fetch real balance if fetchBalance is set
+      isConnected={isConnected}
+      openConnect={openConnect}
       openWallet={() => {
-        // Simulate disconnecting when clicking the wallet button again (for testing convenience)
-        if (confirm('Disconnect mock wallet?')) {
-          setMockConnected(false);
+        // Provide a convenient way to disconnect during testing
+        if (confirm('Disconnect wallet?')) {
+          disconnect();
+        } else {
+          openWallet();
         }
       }}
-      fetchBalance={null} // Don't try to fetch real balance for mock wallet
+      fetchBalance={displayAddress}
     />
   );
 }
